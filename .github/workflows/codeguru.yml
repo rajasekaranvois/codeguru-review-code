@@ -57,11 +57,6 @@ jobs:
         aws_region: eu-central-1
         fail_on_severity: Critical
 
-    - name: Print findings
-      run: |
-        ls -l
-        cat codeguru-results.sarif.json
-
     - name: Upload review result
       if: steps.iam-role.outcome == 'success'
       uses: github/codeql-action/upload-sarif@v3
