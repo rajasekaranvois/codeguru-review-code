@@ -17,7 +17,7 @@ jobs:
     - name: Configure AWS credentials
       id: iam-role
       continue-on-error: true
-      uses: aws-actions/configure-aws-credentials@v1
+      uses: aws-actions/configure-aws-credentials@v3
       with:
         role-to-assume: arn:aws:iam::644119149649:role/CodeGuruReviewerRole
         aws-region: eu-central-1
@@ -40,7 +40,7 @@ jobs:
       if: steps.iam-role.outcome == 'success'
       continue-on-error: false
       with:          
-        s3_bucket: code-guru-bucket
+        s3_bucket: codeguru-reviewer-demo1
         build_path: ./target
 
     - name: Store SARIF file
