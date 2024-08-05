@@ -22,7 +22,7 @@ jobs:
         role-to-assume: arn:aws:iam::644119149649:role/CodeGuruReviewerRole
         aws-region: eu-central-1
     
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       if: steps.iam-role.outcome == 'success'
       with:
         fetch-depth: 0
@@ -50,8 +50,15 @@ jobs:
         name: SARIF_recommendations
         path: ./codeguru-results.sarif.json
 
+    - name: CodeGuru Security
+      uses: aws-actions/codeguru-security@v1
+      with:
+        source_path: .
+        aws_region: eu-central-1
+        fail_on_severity: Critical
+
     - name: Upload review result
       if: steps.iam-role.outcome == 'success'
-      uses: github/codeql-action/upload-sarif@v1
+      uses: github/codeql-action/upload-sarif@v3
       with:
         sarif_file: codeguru-results.sarif.json
